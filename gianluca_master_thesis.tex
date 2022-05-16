@@ -8,6 +8,8 @@
 \usepackage{braket}
 \usepackage{svg}
 \usepackage{hyperref}
+\usepackage{layouts}
+\usepackage{multirow}
 \usepackage[style=numeric, sorting=none]{biblatex}
 \addbibresource{master_thesis.bib}
 \everymath{\displaystyle} % make math symbols in line slightly bigger in the all text
@@ -53,7 +55,7 @@
 		%		Dr.~Mark \textsc{Brown}
 		\vfill
 		% Bottom of the page
-		{\large \today\par}
+
 	\end{titlepage}
 	
 	\thispagestyle{empty}
@@ -283,8 +285,9 @@
 	\end{equation}
 	where $\eta$ and $Q$ are the filling factor and the quality factor of the resonator respectively, $Z_0$ is the impedance of the transmission line and $P$ is the power of the microwave radiation.\\
 	
-	\subsection{Pulsed EPR}
-	In a pulsed EPR (pEPR) experiment, the system is brought to a non-equilibrium state through the use of a sequence of short high-power microwave pulses (typically in the range of tens to hundreds of nanoseconds). The time evolution of the magnetic moment after the sequence is recorded until the system returns to equilibrium (typically in the tens of microsecond time range).\\
+	\subsection{Pulse EPR}
+	\label{sec:pulse_epr}
+	In a pulse EPR (pEPR) experiment, the system is brought to a non-equilibrium state through the use of a sequence of short high-power microwave pulses (typically in the range of tens to hundreds of nanoseconds). The time evolution of the magnetic moment after the sequence is recorded until the system returns to equilibrium (typically in the tens of microsecond time range).\\
 	Changing the length of the pulses, the magnetic moment will be brought to a different state. Assuming equilibrium conditions $\mb{M} = \mb{M}_0 = M_0\mbe_z$, after a microwave pulse of length $t_p$ the magnetic moment will be rotated about the $x$-axis by the flip angle:
 	\begin{equation}
 		\label{eq:2_flip_angle}
@@ -572,10 +575,10 @@
 	Using a density matrix formalism, it is possible to calculate the evolution of the eigenstate populations under the spin Hamiltonian derived in section \ref{sec:2_spin_H}. Any change in the singlet or triplet content leads to an increase or decrease of the conductivity. In particular, recombination processes lead to a decrease of the density of charge carriers and hopping processes result in an increase of the mobility, with a consequent change of the conductivity (Eq. \eqref{eq:2_conductivity}) \cite{boehmeInvestigationChargeCarrier2006}\cite{boehmeInvestigationElectronicTransitions2004}. 
 	
 	\chapter{Materials and methods}
-	In this chapter, the structure of the c-Si solar cell studied with Electrically Detected Magnetic Resonance and the experimental setup used in the course of this project are described.
+	In this chapter, the structure of the c-Si solar cell studied with electrically detected magnetic resonance and the experimental setup used in the course of this project are described.
 	
-	\section{c-Si minicell from NREL}
-	The samples to be studied using EDMR have been produced by the National Renewable Energy Laboratory (NREL) in Golden, Colorado, USA. A schematic of the structure is shown in Fig. \ref{fig:3_minicells}. The absorber material is phosphorous-doped Czochralski (CZ) silicon. Silicon oxide SiO\tsub 2 is used to achieve passivation of the surface defects. A layer of polycrystalline silicon (poly-Si) surrounds the absorber layer to avoid edge shunts. On the top part of the solar cell, this poly-Si layer is highly n-doped, an anti-reflex coating is used to enhance the absorption of light and grid metal fingers are evaporated to extract charge carriers. On the back side, the poly-Si is highly p-doped and the metal back contact covers all the surface of the cell.
+	\section{First generation: minicell from NREL}
+	The samples to be studied using EDMR have been produced by the National Renewable Energy Laboratory (NREL) in Golden, Colorado, USA. A schematic of the structure of the first generation of samples is shown in Fig. \ref{fig:3_minicells}. The absorber material is phosphorous-doped Czochralski (CZ) silicon. Silicon oxide SiO\tsub 2 is used to achieve passivation of the surface defects. A layer of polycrystalline silicon (poly-Si) surrounds the absorber layer to avoid edge shunts. On the top part of the solar cell, this poly-Si layer is highly n-doped, an anti-reflex coating is used to enhance the absorption of light and grid metal fingers are evaporated to extract charge carriers. On the back side, the poly-Si is highly p-doped and the metal back contact covers all the surface of the cell.
 	\begin{figure}[b]
 		\centering
 		\begin{subfigure}{.65\textwidth}
@@ -589,6 +592,10 @@
 		\caption{NREL solar cell structure. (a) Microscope image of the top view of the cell with dimensions in millimeters. (b) Schematic of the structure of the solar cell. The sample consists of n-doped Czochralski Si absorber (dark blue), SiO\tsub 2 passivation layer (green), poly-Si layer(intrinsic in yellow, n$^+$-doped in red, p$^+$-doped in purple), evaporated metal contacts (gray), anti-reflex coating (black). Figures from NREL, Golden, CO, USA.}
 		\label{fig:3_minicells}
 	\end{figure}
+	
+	\section{Second generation: }
+	A second generation of solar cells was produced with a different design to improve the signal to noise of the EDMR measurements. In this regard, the active area of the solar cell was reduced and the amount of metal in its proximity was minimized to achieve a better field homogeneity. A sketch is shown in Fig. \ref{}.\\
+	The presence of 
 	
 	\section{Experimental setup}
 	\begin{figure}[t]
@@ -606,83 +613,97 @@
 	The sample is inserted into an EPR quartz tube (outer diameter $4 \; \text{mm}$, inner diameter $3 \; \text{mm}$). Electrical wires are connected to the contact pads of the solar cell using silver paste and are then connected to the electrical detection system. \\
 	The current detection is performed using a converter and amplifier (Elektronik-Manufaktur Mahlsdorf, EMM) specifically developed for EDMR experiments. The signal goes through a transimpendence amplifier (TIA) with a conversion factor of $10^4 \; \text{V/A}$, a band-pass filter where the high-pass cutoff removes the DC component of the signal while the low-pass cutoff determines the time resolution of the detection setup, and an additional amplifier. The signal is finally sent to the digitizer integrated into the spectrometer (Bruker SpecJet-II). Lock-in detection can be used in cwEDMR experiments to enhance the signal to noise ratio.\\
 	
+	\section{Post acquisition data analysis}
+	The data analysis is performed using MATLAB\textsuperscript{\textcopyright} (release 2020b, The MathWorks, Inc., Natick (MA), US). This comprises baseline correction, phase correction and least-square fits. For the latter ones and for simulations, the EasySpin \cite{stollEasySpinComprehensiveSoftware2006} MATLAB library is used.\\
+	\subsection{cwEDMR baseline correction}
+	A typical cwEDMR spectrum consists of a resonance peak with all the information about the physical system superimposed to a baseline that usually stems from background currents induced by the microwave radiation inside the cavity. In cwEDMR, the baseline is obtained performing a second order polynomial fit to the recorded spectrum in a region where there is no resonance, corresponding to the outermost 15\% of the swept range. The fitted baseline is then subtracted to the acquired spectrum.
+	\subsection{cwEDMR phase correction}
+	In conventional cwEDMR experiments, lockin amplification is used to improve the signal to noise ratio. For this reason, a sinusoidal modulation field is superimposed to the static magnetic field and a sinusoidal signal of the same frequency is used as reference for the lockin (\textbf{clarify}). The recorded cwEDMR spectrum is in phase or out of phase when the phase difference between the modulation and the sinusoidal cwEDMR signal is equal to 0 or 90 degrees, respectively. Phase correction allows to reconstruct the total signal. This procedure consists in considering the in phase and out of phase contribution as real and imaginary part of a complex quantity, respectively, and multiplying for a complex phase in order to rotate the complex vector on the real axis. In this way, the imaginary component of the rotated vector is approximately zero while the real one is the phase corrected signal.
+	\subsection{cwEDMR simulations and least-square fit}
+	Making use of the EasySpin library it was possible to simulate and fit the acquired cwEDMR spectra. In particular, the functions \textit{pepper} and \textit{esfit} where used to simulate cwEDMR spectra of solid state systems and perform least-square fitting, respectively.\\
+	Every time a fit was performed, if it was possible to easily distinguish different contributions then the spin systems were fitted separately to the spectrum and only afterwards all parameters were fitted simultaneously. This allowed to obtain better initial values for the fitting routine.\\
+	\subsection{pEDMR baseline correction}
+	All the pEDMR experiments conducted in the frame of this work consist of recording the current change as a function of time after a series of microwave pulses that bring the system to a non-equilibrium state. This procedure is repeated for different values of the magnetic field and a two-dimensional field-time map is obtained. (\textbf{maybe this should go somewhere else?})\\
+	The baseline is corrected in two steps. Firstly, in the time-domain a constant baseline is subtracted to all the traces. For this purpose, the data acquisition is started some $\mu$s before the first microwave pulse and the signal in this range is fitted with a constant. Since different time traces can have different baseline, this procedure ensures that all the non-constant baseline in the field-domain is subtracted. Afterwards, in the field-domain a baseline is subtracted to all the spectra. As in cwEDMR, for this purpose the field is swept in a range that comprises regions where there is no resonance. In the same way, this step yields to the subtraction of non-constant baseline in the time-domain.\\
 	
-	%	\section{cwEDMR}
-	%	In a continuous wave EDMR (cwEDMR) experiment, the sample is irradiated with microwave at constant frequency while the magnetic field is swept adiabatically.\\
-	%	When the resonance condition of one of the two spins forming a spin pair is met, a change in the current will be measured. The signal to noise ratio is enhanced through the use of lock-in detection.\\
-	%	A typical cwEDMR spectrum is shown in fig (\textbf{INSERT FIG}).
-	%	
-	%	\section{pEDMR}
-	%	The advantage of pulsed EDMR (pEDMR) over cwEDMR experiment is in the possibility of studying the dynamics of the transition processes.\\
-	%	The most basic and direct pulsed experiment is given by transient pEDMR. The sample, initially in equilibrium, is brought to a non-equilibrium state through a short and intense microwave pulse. The current change is measured as a function of time after. While the typical length of the pulse is of the order of tens to few hundreds of nanoseconds, the transient is recorded for more than a few hundread of microseconds, in order to study the dynamics until the sample is back to equilibrium.\\
-	%	The transient is recorded for various values of the external magnetic field in order to obtain a 2D map. Fig (\textbf{Insert fig}) shows such a measurement.
 	
-	\chapter{Project plan}
-	In this chapter, preliminary results of the EDMR measurements on the NREL c-Si solar cell will be briefly discussed. The data analysis of these measurements is still incomplete. Afterwards, the project plan regarding the EDMR measurements for the next months will be presented. Finally, the plan regarding the production of the heterojuction with intrinsic layer (HIT) solar cell will be discussed.
+	\chapter{First generation sample}
+	In this chapter, the EDMR data obtained using the first sample design is presented.
 	
-	\section{Preliminary results: cwEDMR on c-Si solar cell}
-	Continuous wave EDMR (cwEDMR) spectra of the NREL c-Si solar cell under illumination are acquired for different values of the temperature. The measurements are shown in Fig. \ref{fig:4_cwEDMR_Tdependence}.
-	%The cell was supplied with a reverse bias voltage $V\tsub{bias} = 1.10 \pm 0.01 \; \text{V}$.
+	\section{cwEDMR}
+	The X-band continuous wave EDMR (cwEDMR) spectra acquired at different temperature values are shown in Fig. \ref{fig:2021_T_dep}. The temperature dependence of the signal gives information about the nature of the electronic process that is being probed.\\
+	The measurements were conducted using a microwave power of around $40 \; \text{mW}$, lockin time constant of around $20 \; \text{ms}$, analog to digital conversion time of around $40 \; \text{ms}$, modulation frequency of $10 \; \text{kHz}$ and modulation amplitude of $0.12 \; \text{mT}$ (for the spectra at $T = 10, 13 \; \text{K}$) and $0.3 \; \text{mT}$ (for the spectra at $T = 16, 20, 25, 30 \; \text{K}$). A total number of $10$ field sweeps was performed and the average is taken into consideration to improve the signal to noise ratio.
 	
-	For $T \leq 16 \; \text K$, one can easily identify the signal coming from the phosphorus donor states, which consists of two peaks at a distance of $4.2 \; \text{mT}$ due to hyperfine interaction. Increasing the temperature, the thermal energy of the electrons 
-	becomes comparable with the difference between the defect energy level and the conduction band edge ($40 \; \text{meV}$)\cite{feherElectronSpinResonance1959}. Thus an increasing number of phosphorus defects are ionized, leading to a decrease of the EDMR signal.
+	As mentioned in Sec. \ref{sec:2_spin-dependent_electronic_processes}, in the sample under investigation the paramagnetic centers that can influence the charge transport might be situated at the interface between silicon and silicon oxide (Si/SiO\textsubscript{2} interface). At the interface, silicon atoms that are not bound with oxigen present an unpaired electron. This hybrid \textit{sp}\textsuperscript{3} orbit presents a cylindrical symmetry and is positioned with the axis perpendicular to the interface. The g-tensor of $P\textsubscript{b}$ is therefore axial, with $g_\parallel \simeq 2.0018$ and $g_\perp \simeq 2.0081$ \cite{stesmansElectronSpinResonance2014}. \\
+	Moreover, defects could be present at the grain boundaries of the poly-crystalline silicon (poly-Si) layers. These layers are constituted by several c-Si grains with different orientations, hence the lattice mismatch at the grain boundaries can lead to defect formation. The EDMR signal related to these defects has a g-factor of $g \simeq 2.0055$ \cite{}. We will refer at this defects as DB ("dangling bond-like" defect).\\
+	Regarding the bulk of the c-Si absorber, the diffusion length of the charges is larger than the dimension of the layer, especially at low temperature, hence the probability of a recombination processes can be neglected. Nevertheless, the presence of phosphorous in the lattice of n-doped Si leads to an EDMR signal, generated by the interaction of a trapped electron in the orbital of the \textsuperscript{31}P donor with another electron. For these reasons, three spin systems were used to fit the acquired cwEDMR spectra. Since the \textsuperscript{31}P signal cannot be distinguished from the noise at temperature higher than $T = 20 \; \text{K}$, the spectra at $T = 25, 30 \; \text{K}$ were fitted using only the other two spin systems. The g-value and the hyperfine splitting of the \textsuperscript{31}P signal are not included as parameters in the fitting routine since they are well known in literature \cite{stegnerElectricalDetectionCoherent2006}.\\
+	The simulation and least-square fitting of the spectra were carried out using the EasySpin Toolbox \cite{stollEasySpinComprehensiveSoftware2006}. The results of the least-square fit are shown in Tab. \ref{tab:summer21_bestfit}.\\
+	\iffalse
 	
-	A central peak is also distinguishable in all the spectra. The nature of this signal could be attributed to the presence of dangling bond defects at the interface between silicon and silicon dioxide (P\tsub b defect). Nevertheless, an initial data analysis suggests that the peak is the superposition of two different signals. The nature of the second one is still unclear: it could be due to dangling bonds at the grain boundaries of the highly doped poly-Si layers \cite{lipsDefectsRecombinationMicrocrystalline2003}; another possibility is that the signal stems from so-called E' defects in the bulk of the SiO\tsub 2 \cite{lenahanWhatCanElectron1998}\cite{ambalSpinRelaxationDynamicsCenters2015}. Further experiments are planned to clarify the nature of this current-limiting defect. In particular, experiments on symmetric structures, which are devices with the same doping of the poly-Si layer on both sides, are going to be helpful in isolating the different signals.\\
-	\begin{figure}
+	For the spectra at $T=20\;K$ and lower, three spin systems were used to fit the acquired spectrum, while for higher temperatures only two were used, since the \textsuperscript{31}P signal is not distinguishable from the noise. When present in the acquired spectrum, the g-value of the phosphorous signal was kept constant since it is well known in literature . The decision to include signals coming from two different paramagnetic defects is justified by the lineshape of the data, which could not be simulated without including two different species.\\
+	
+	\fi
+	The linewidth and the g-values of the P\textsubscript{b} center and the DB defect yield to an overlap of these two signals, making it challenging to separate the two contributions in a cwEDMR experiment and interpret the results. It is nevertheless possible to observe that the contribution of the \textsuperscript{31}P signal decreases with increasing temperature while the broad central peak becomes more prominent.\\ 	\begin{figure}[t]
 		\centering
-		\includegraphics[width=\textwidth]{images/4_cwEDMR_Tdependence.png}
-		\caption{Temperature dependence of the cwEDMR signals. The spectra (a), (b) and (c) show the typical $^{31}$P signal, with hyperfine splitting $\sim 4.2 \; \text{mT}$. The relative intensity of the central peak with respect to the $^{31}$P signal increases with increasing temperature. The nature of the central signal is still unclear.}
-		\label{fig:4_cwEDMR_Tdependence}
+		\includegraphics[width=\textwidth]{images/2021_summer_cw_T.pdf}
+		\caption{Temperature dependence measurement and least-square fit on the first generation sample. The best-fit parameters are given in Tab. \ref{tab:summer21_bestfit}}
+		\label{fig:2021_T_dep}
 	\end{figure}
+	The linewidth of the hyperfine peaks changes from $\Delta B\textsubscript{pp} \simeq 0.7 \; \text{mT}$ at $T = 10, 13 \; \text{K}$ to $\Delta B\textsubscript{pp} \simeq 1.2 \text{mT}$ at higher temperatures. This is due to the modulation amplitude, that was changed from $0.12 \; \text{mT}$ to $0.3 \; \text{mT}$, leading to a broadening of the line.\\
+	The broad central peak could not be properly fitted using only one spin system. With the assumption that the broad central peak is a superposition of two signals, the fit is overparametrized and it is challenging to have a unique and coherent determination of the g-factor and linewidth of the two signals. Nevertheless, it is possible to identify a broader peak at larger g-value with linewidth $\Delta B\textsubscript{pp} \simeq 3.6 \; \text{mT}$ and a narrower peak at lower g-value with $\Delta B \textsubscript{pp} \simeq 1.6 \; \text{mT}$.\\
+	\iffalse
 	
+	The g-value of the P\textsubscript{b} defect is comparable with the literature value $g\perp = 2.0081$. This could be expected given the fact that the magnetic field inside the resonator was parallel with respect to the surface of the solar cell and therefore perpendicular to the symmetry axis of the P\textsubscript{b}.\\
 	
-	\section{Next steps: EDMR on c-Si solar cells and symmetric structures}
-	\begin{figure}
+	\begin{table}
+
+		\begin{tabular}{c|c|c|c|c|c|c|c|c}
+				&	\multicolumn{2}{c|}{P\textsubscript{b}} & \multicolumn{3}{|c|}{DB} & \multicolumn{3}{|c}{\textsuperscript{31}P} \\
+			T [K]	& g & $\Delta B\textsubscript{pp}$ [mT] & g & $\Delta B\textsubscript{pp}$[mT] & Weight & g & $\Delta B\textsubscript{pp}$ [mT] & Weight \\
+			\hline
+			10& 2.0140	&2.7563	&2.0044	&0.1123	&0.9063	&1.9978	& 0.6244 & 1.0321 \\
+			13&	2.0092&	4.0197	&2.0050	&1.9415	&2.1172	&1.9987  & 0.7055 & 0.9839\\
+			16&	2.0068&	3.9970& 2.0047	&1.6568	&0.8980	&1.9997	&1.0984  &0.1414 \\
+			20&	2.0050& 4.2680	&2.0026	&1.7259	&1.8341	&2.0008	&1.0868  &0.0828 \\
+			25& 2.0094	&4.8551	&2.0062	&1.7136	&1.5452	&	-& - & -\\
+			30& 2.0087	&5.2269	&2.0050	&1.6446	&1.6432	&	-&-  & -\\
+		\end{tabular}
+	\end{table}
+	\fi
+	\begin{table}
 		\centering
-		\begin{subfigure}{.3\textwidth}
-			\centering
-			\includegraphics[width=\textwidth]{images/symmetric_structure_n.png}
-		\end{subfigure}%
-		\hspace{.1\textwidth}
-		\begin{subfigure}{.32\textwidth}
-			\centering
-			\includegraphics[width=.95\textwidth]{images/symmetric_structure_p.png}
-		\end{subfigure}
-		\caption{Sketches of symmetric structures. (a) n-doped Czochralski silicon absorber (dark blue), SiO\tsub 2 passivation layer (green), n-doped poly-Si (red), metal (gray). (b) p-doped Czochralski silicon absorber (dark blue), SiO\tsub 2 passivation layer (green), p-doped poly-Si (red), metal (gray).}
-		\label{fig:4_symmetric_structures}
-	\end{figure}
-	As discussed in the previous section, a clear explanation of the results obtained so far is still missing. New samples are being produced by the NREL team. The new solar cells will be better suited for EDMR measurements: the active area will be reduced in size ($2 \; \text{mm}^2$); moreover, the back contact geometry will be modified to reduce the amount of metal inside the resonator. These modifications can ensure a more uniform magnetic field distribution all over the solar cell and reduce the field-dependent background signal generated by parasitic currents in the metal layer, hence enhancing the signal to noise ratio.
+		\small
+		\begin{tabular}{c|c|c|c|c|c|c|c|c}
+			\multirow{2}{*}{T [K]} &	\multicolumn{3}{c|}{g-factor} & \multicolumn{3}{|c|}{Linewidth [mT]} & \multicolumn{2}{|c}{Weight} \\
+				& P\textsubscript{b} & DB & \textsuperscript{31}P & P\textsubscript{b} & DB & \textsuperscript{31}P & DB & \textsuperscript{31}P \\
+			\hline
+				10& 2.0140	&2.0044		&1.9985		&2.7563		&0.1123		& 0.6244 	&0.9063  & 1.0321 \\
+				13& 2.0117	&2.0048		&1.9985		&3.5898		&1.6364		& 0.6513	&0.7286	 & 0.3903\\
+				16& 2.0045	&2.0033		&1.9985		&3.2298		&1.5326		&1.2912  	&0.6916	 &0.1852 \\
+				20& 2.0050	&2.0026		&1.9985		&4.2680		&1.7259		&1.2752  	&1.8341	 &0.0931 \\
+				25& 2.0081	&2.0049		&  -   		&4.2305		&1.6863		& - 		&1.4929  & - \\
+				30& 2.0085	&2.0049		&  -   		&3.8305		&1.6270		& - 		&2.2233  & - \\
+		\end{tabular}
+	\caption{Hyperfine splitting was not a fit parameter. The weight (value of the area) is normalized with respect to P\textsubscript{b0}}
+	\label{tab:summer21_bestfit}
+	\end{table}
+	\chapter{Pulse EDMR}
+	In this chapter, the pEDMR data obtained using the first sample design is presented.
 	
-	It's still unclear at this stage from which layer is the signal coming from due to the complex structure of the solar cell. For this reason, the NREL team is producing devices with symmetric structures. In particular, two different structures are being realized: one, with n-doped poly-Si layer on both sides of the c-Si absorber; the other, with p-doped poly-Si on both sides. Sketches of the symmetric structures are shown in Fig. \ref{fig:4_symmetric_structures}. These symmetric structures can isolate signals that come from different parts of the device, helping to disentangle the various signals measured in the c-Si solar cell.
-	
-	Additionally, samples with boron doped crystalline silicon absorber are also being produced. Even though these solar cells have the largest commercial market share \cite{InternationalTechnologyRoadmap2021}, the processes of light induced degradation (LID), which leads to the formation of boron-oxygen complexes in the wafer of these devices, is still not completely understood. Previous research shows that these complexes reduce the efficiency of solar cells up to 5\% \cite{nieweltDegradationCrystallineSilicon2017}. The microscopic description that can be obtained through EDMR measurements can lead to a better physical understanding of the LID processes in the perspective of improving this technology.
-	
-	To summarize, the open questions that will be addressed in the next months are:
-	\begin{itemize}
-		\item identification of the processes that lead to the EDMR signals that were already observed in the phosporus doped c-Si solar cell.
-		\item identification of the layers from which the EDMR signals come from.
-		\item characterization of the boron-oxygen complexes in boron doped c-Si solar cells.
-	\end{itemize}
-	The project plan for the next months follows:
-	\begin{itemize}
-		\item January 2022: temperature dependence of the EDMR signal on the new solar cells with n-doped absorber. The goal of these experiments is to reproduce with a better signal to noise ratio the signals that were observed in the first sample. Moreover, temperature dependent EDMR measurements will be carried out on the p-doped c-Si solar cells.
-		\item February 2022: temperature dependence of the EDMR signal on the symmetric structures to disentangle and understand the nature of the different signals that were observed in the n-doped c-Si solar cell.
-		\item March 2022: angular dependence of the EDMR signal on all samples, with the goal of identify the signals that are dependent on the angle between the surface of the cell and the external magnetic field. The initial interpretation that the signal comes from the P\tsub b defect at the Si/SiO\tsub 2 interface will be either confirmed or disproved.
-		\item March - May 2022: data analysis and writing of the master thesis.		
-	\end{itemize}
-	
-	\section{Production of HIT solar cells}
-	The second part of my master thesis is dedicated to the production of heterojunction with intrinsic layer (HIT) solar cells. This is a more technical side project, in which I  take care sample production in collaboration with the PVcomB department of the Helmholtz Zentrum Berlin (HZB). In particular, I am involved in the realization of the masks for the deposition of the various layers of the solar cell; moreover, I will take care the laser cutting process with the aim of finding the right parameters for the UV Keyence laser that lead to the formation of the lowest possible amount of defect states.\\
-	Once the solar cells are produced, measurements will be carried out on the samples to ensure that they are working and that they show an EDMR signal, which is expected to stem from the a-Si layers.\\
-	The project plan for the next months follows:
-	\begin{itemize}
-		\item December 2021 - February 2022: creation of masks for the deposition of the different layers; study of the dependence of the laser cutting process on the various laser parameters. 
-		\item March 2022: EDMR measurements on the produced samples.
-		\item March - May 2022: data analysis and writing of the master thesis.		
-	\end{itemize}
-	
+	\section{pEDMR data acquisition}
+	The sample was brought into a non-equilibrium state using a microwave pulse of high intensity at different temperatures and the variation of photocurrent was measured to study the dynamics of the system to reach the equilibrium state. Previous Rabi nutation experiments were performed in order to obtain the nutation frequency and therefore determine the best pulse length to achieve the highest possible signal intensity, as explained in Sec. \ref{sec:pulse_epr}. For the measurement at $T = 12.5 \; \text{K}$ a microwave pulse of $t_p = 100 \; \text{ns}$ was used, while for all the other measurements $t_p = 200 \; \text{ns}$. The number of sweeps was varied in order to maximize the signal to noise ratio, but with the upper limitation given by the duration of a bottle of liquid helium which was used to perform the low temperature measurements.\\
+	The 2D maps acquired are shown in figure \textbf{fig ref}, with time slice and field slice.\\
+	Similarly to what was observed in cwEDMR, the spectra at various temperature are a superposition of \textsuperscript{31}P signal and a broad central peak. Contrary to the previous measurements, the hyperfine peaks are not visible at $T = 15, 20 \; \text{K}$. This can be explained by the fact that in continuous wave experiments the sample is 
 	\printbibliography
 \end{document}
+\iffalse
+The energy necessary to ionize such defects can be estimated using a simplified Bohr model for 
+the electron bound to the phosphorous occupying the ground state:
+\begin{equation}
+	E_{P} = \frac{m^* e^4}{(4\epsilon h)^2} = R_H \cdot \frac{m^*}{m_e} \cdot \frac{1}{\epsilon_{Si}} = -29 \; \text{meV}.
+\end{equation}
+At room temperature, these so-called shallow defect states that lay close to the conduction band are not populated because the thermal energy is of the same order of the binding energy: $kT \sim E_{P}$. On the other hand, at low temperature 
+\fi
 
 
 
